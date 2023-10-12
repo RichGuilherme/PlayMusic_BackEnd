@@ -8,7 +8,7 @@ import userRouter from "./router/user.js"
 import passport from "passport";
 
 const app = express()
-const port = 4000
+const port = process.env.PORT
 
 connectToDb()
 
