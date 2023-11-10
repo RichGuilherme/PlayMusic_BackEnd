@@ -13,15 +13,12 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         select: true
     },
     playList: [
         {
             type: mongoose.Types.ObjectId,
             ref: "PlayList",
-            default: []
-       
         }],
     dataUP: {
         type: Date,

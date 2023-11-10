@@ -16,7 +16,7 @@ class UserController {
                 if (err.code === 11000) {
                     console.error('Erro: Username ou email já existem.');
                 } else {
-                    console.error('Erro ao criar usuário:', err);
+                    console.error('Erro ao criar usuário');
                 }
                 response.status(500).json({ error: 'Erro ao criar usuário' })
             })
@@ -38,6 +38,7 @@ class UserController {
         const token = generateToken(user)
         response.json({ token })
     }
+
 }
 
 export default new UserController
