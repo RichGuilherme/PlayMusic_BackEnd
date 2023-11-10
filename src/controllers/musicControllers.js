@@ -7,8 +7,9 @@ import storage from "../config/firebase.js";
 class MusicControllers {
     create = async (request, response) => {
         const musicFile = request.file
-        const infoMusic = await parseBuffer(musicFile.buffer)
+        const infoMusic = await parseBuffer(musicFile.buffer) // Pega informações extra com o music-metadata
     
+        // configurações do firebase para armazenamento
         const storageRef = ref(storage, `${request.file.originalname}`)
 
         const metadata = {
@@ -16,9 +17,9 @@ class MusicControllers {
         };
 
         const snapshot = await uploadBytesResumable(storageRef, request.file.buffer, metadata)
-
         const downloadURL = await getDownloadURL(snapshot.ref)
 
+        // Buscar o id da playlist pelo params
         const playList = await PlayList.findById(request.params.listId)
         
         const music = await Music({
@@ -32,7 +33,6 @@ class MusicControllers {
         await playList.save()
 
         return response.status(200).json(music)
-        
     }
 }
 

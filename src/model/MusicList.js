@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 
-
 const PlayListSchema = {
   title: String,
   user_id: {
