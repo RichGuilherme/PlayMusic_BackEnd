@@ -26,7 +26,7 @@ class PlayListControllers {
     }
 
     // Pega uma lista especifica do usuário
-    dateList = async (request, response) => {
+    getList = async (request, response) => {
         const list = await PlayList.findById(request.params.listId)
 
         response.status(200).json(list)

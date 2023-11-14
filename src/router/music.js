@@ -7,11 +7,7 @@ import musicControllers from "../controllers/musicControllers.js"
 
 
 router.post('/create/:listId', authJwt, uploadAudio.single("music"),  musicControllers.create);
-
-
-// Rota para listar as listas de reprodução de um usuário
-router.get('/:userId', async (req, res) => {
-    // Implemente a listagem de listas de reprodução de um usuário aqui
-});
+router.get('/getMusic/:musicId', authJwt, musicControllers.getMusic)
+router.get('/getMusics/:listId', authJwt, musicControllers.getMusics)
 
 export default router

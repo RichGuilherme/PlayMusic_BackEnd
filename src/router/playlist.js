@@ -7,6 +7,6 @@ import authJwt from "../middleware/authJwt.js"
 
 router.post("/create", authJwt, uploadAudio.single("thumbnail"), playListController.create)
 router.get("/getlists", authJwt, playListController.getLists)
-router.get("/dateList/:listId", authJwt, playListController.dateList)
+router.get("/getList/:listId", authJwt, playListController.getList)
 
 export default router

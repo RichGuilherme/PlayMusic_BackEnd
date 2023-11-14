@@ -1,5 +1,6 @@
+import { comparePasswords, generateToken, hashPassword } from "../authJWT.js";
 import { User } from "../model/User.js";
-import { comparePasswords, generateToken, hashPassword } from '../auth.js'
+
 
 class UserController {
     register = async (request, response) => {

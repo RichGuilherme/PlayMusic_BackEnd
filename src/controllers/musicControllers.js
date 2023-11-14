@@ -34,6 +34,18 @@ class MusicControllers {
 
         return response.status(200).json(music)
     }
+
+    getMusic = async (request, response) => {
+        const music = await Music.findById(request.params.musicId)
+
+        response.status(200).json(music)
+    }
+
+    getMusics = async (request, response) => {
+        const playList = await PlayList.findById(request.params.listId)
+
+        response.status(200).json(playList.songs)
+    }
 }
 
 export default new MusicControllers
