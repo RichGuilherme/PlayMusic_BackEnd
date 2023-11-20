@@ -6,6 +6,12 @@ import storage from "../config/firebase.js";
 
 class MusicControllers {
     create = async (request, response) => {
+        const playList = await PlayList.findById(request.params.listId)
+
+        if(playList.songs.length >= 6){
+            return response.status(403).json("Limite de música alcançado")
+        }
+
         const musicFile = request.file
         const infoMusic = await parseBuffer(musicFile.buffer) // Pega informações extra com o music-metadata
     
@@ -20,7 +26,6 @@ class MusicControllers {
         const downloadURL = await getDownloadURL(snapshot.ref)
 
         // Buscar o id da playlist pelo params
-        const playList = await PlayList.findById(request.params.listId)
         
         const music = await Music({
            title: infoMusic.common.title,

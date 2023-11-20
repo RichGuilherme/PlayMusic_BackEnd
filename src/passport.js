@@ -12,7 +12,6 @@ passport.use(new GoogleStrategy({
     async (accessToken, refreshToken, profile, done) => {
         try {
             // Verificar se o usuário já existe no banco de dados
-            console.log(profile)
             let user = await User.findOne({ email: profile.emails[0].value })
 
             if (!user) {
@@ -20,16 +19,15 @@ passport.use(new GoogleStrategy({
                 user = await User.create({
                     username: profile.displayName ,
                     email: profile.emails[0].value,
-                    // Outros campos conforme necessário
                 })
             }
 
             // Gerar token JWT
             const token = generateToken(user)
-            response.status(200).json({token})
+            // response.status(200).json({token})
+            console.log(token)
             // Imprimir o token
             
-
             // Retornar o usuário encontrado ou recém-criado
             return done(null, user)
         } catch (error) {
