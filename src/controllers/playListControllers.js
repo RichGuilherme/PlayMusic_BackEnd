@@ -6,7 +6,7 @@ class PlayListControllers {
         const { title } = request.body
         const user = await User.findById(request.user._id)
         
-        if(user.playList.length >= 3){
+        if(user.playList.length >= 2){
             return response.status(403).json("Limite máximo de lista alcançado.")
         }
         
