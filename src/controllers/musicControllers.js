@@ -16,6 +16,7 @@ class MusicControllers {
         const musicFile = request.file
         const infoMusic = await parseBuffer(musicFile.buffer) // Pega informações extra com o music-metadata
 
+        
         // configurações do firebase para armazenamento
         const storageRef = ref(storage, `${request.file.originalname}`)
 

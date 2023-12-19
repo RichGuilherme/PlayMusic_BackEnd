@@ -1,11 +1,13 @@
 import Express from "express";
 const router = Express.Router()
-import userController from "../controllers/userController.js"
+import authController from "../controllers/authController.js"
 import passport from "passport";
+import verifyToken from "../middleware/verifyToken.js";
+import userController from "../controllers/userController.js";
 
-router.post('/register', userController.register)
-router.post('/login', userController.login)
-
+router.post('/register', authController.register)
+router.post('/login', authController.login)
+router.get('/getUser', verifyToken, userController.getUser)
 
 // google oauth20
 router.get('/auth/google',

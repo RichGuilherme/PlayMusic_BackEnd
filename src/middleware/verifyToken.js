@@ -1,7 +1,7 @@
 import  Jwt  from "jsonwebtoken";
 
-export default  (request, response, next) => {
-	const token = request.header("x-auth-token");
+const verifyToken = (request, response, next) => {
+	const token = request.header("x-access-token");
 	if (!token)
 		return response
 			.status(400)
@@ -17,3 +17,5 @@ export default  (request, response, next) => {
 		}
 	})
 }
+
+export default verifyToken

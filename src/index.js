@@ -8,11 +8,14 @@ import userRouter from "./router/user.js"
 import "./passport.js"
 import passport from "passport";
 
+import cors from 'cors'
+
 const app = express()
 const port = process.env.PORT
 
 connectToDb()
 
+app.use(cors())
 app.use(express.json())
 
 app.use(

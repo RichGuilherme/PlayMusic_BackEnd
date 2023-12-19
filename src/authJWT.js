@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 
 const generateToken = (user) => {
   return jwt.sign({ _id: user._id }, 'admin@', {
-    expiresIn: '1h',
+    expiresIn: '3h',
   })
 }
 
