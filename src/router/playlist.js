@@ -1,12 +1,12 @@
-import Express from "express"
-const router = Express.Router()
+// import Express from "express"
+// const router = Express.Router()
 
-import playListController from "../controllers/playListControllers.js"
-import {uploadAudio} from "../middleware/multer.js"
-import verifyToken from "../middleware/verifyToken.js"
+// import playListController from "../controllers/playListControllers.js"
+// import {uploadAudio} from "../middleware/multer.js"
 
-router.post("/create", verifyToken, uploadAudio.single("thumbnail"), playListController.create)
-router.get("/getlists", verifyToken, playListController.getLists)
-router.get("/getList/:listId", verifyToken, playListController.getList)
 
-export default router
+// router.post("/create",  uploadAudio.single("thumbnail"), playListController.create)
+// router.get("/getlistsUser",  playListController.getListsUser)
+// router.get("/getList/:listId",  playListController.getList)
+
+// export default router

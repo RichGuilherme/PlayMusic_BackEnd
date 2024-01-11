@@ -1,6 +1,11 @@
 import mongoose from "mongoose"
 
 const musicSchema = {
+    user_id: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
     title: String,
     artist: String,
     duration: Number,
@@ -17,4 +22,4 @@ const musicSchema = {
 
 const Music = mongoose.model('Music', musicSchema)
 
-export { Music}
+export { Music }

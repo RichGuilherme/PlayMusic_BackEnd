@@ -1,29 +1,28 @@
-import { PlayList } from "../model/MusicList.js";
 import { Music } from "../model/Songs.js";
+import { User } from "../model/User.js";
 import { parseBuffer } from 'music-metadata';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import storage from "../config/firebase.js";
 
 class MusicControllers {
     create = async (request, response) => {
-        // Buscar o id da playlist pelo params
-        const playList = await PlayList.findById(request.params.listId)
+        const user = await User.findById(request.user._id)
 
-        if (playList.songs.length >= 10) {
-            return response.status(403).json("Limite de música alcançado")
-        }
+        // if (playList.songs.length >= 10) {
+        //     return response.status(403).json("Limite de música alcançado")
+        // }
 
         const musicFile = request.file
         const infoMusic = await parseBuffer(musicFile.buffer) // Pega informações extra com o music-metadata
 
-        
+
         // configurações do firebase para armazenamento
         const storageRef = ref(storage, `${request.file.originalname}`)
 
         const metadata = {
             contentType: request.file.mimetype,
         }
-
+      
         const snapshot = await uploadBytesResumable(storageRef, request.file.buffer, metadata)
         const downloadURL = await getDownloadURL(snapshot.ref)
 
@@ -40,6 +39,7 @@ class MusicControllers {
         }
 
         const music = await Music({
+            user_id: user._id,
             title: infoMusic.common.title,
             artist: infoMusic.common.artist || infoMusic.common.album,
             duration: infoMusic.format.duration,
@@ -47,22 +47,30 @@ class MusicControllers {
             storage_url: downloadURL,
         }).save()
 
-        playList.songs.push(music._id)
-        await playList.save()
+        user.musicList.push(music._id)
+        await user.save()
 
         return response.status(200).json(music)
     }
 
     getMusic = async (request, response) => {
         const music = await Music.findById(request.params.musicId)
+        
 
-        response.status(200).json(music)
+        response.status(200).json({ music })
     }
 
-    getMusics = async (request, response) => {
-        const playList = await PlayList.findById(request.params.listId)
+    deleteMusic = async (request, response) => {
+        const music = await Music.findByIdAndDelete(request.query.musicId)
 
-        response.status(200).json(playList.songs)
+        response.status(200).send("Música deletada com sucesso")
+    }
+    
+    getMusics = async (request, response) => {
+        const user = await User.findById(request.user._id)
+        const musics = await Music.find({ user_id: user._id })
+
+        response.status(200).json({ musics })
     }
 }
 

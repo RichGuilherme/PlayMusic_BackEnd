@@ -7,7 +7,7 @@ import userController from "../controllers/userController.js";
 
 router.post('/register', authController.register)
 router.post('/login', authController.login)
-router.get('/getUser', verifyToken, userController.getUser)
+router.get('/getDescritionPlaylist', verifyToken, userController.getDescritionPlaylist)
 
 // google oauth20
 router.get('/auth/google',
@@ -18,7 +18,7 @@ router.get('/auth/google',
 router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     (req, res) => {
-        res.redirect('/')
+        res.redirect('/home')
     }
 );
 
