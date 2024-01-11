@@ -1,4 +1,3 @@
-import { response } from "express";
 import { comparePasswords, generateToken, hashPassword } from "../authJWT.js";
 import { User } from "../model/User.js";
 
@@ -11,8 +10,15 @@ class UserController {
 
         await User.create({ username, password: hashedPassword, email })
             .then(user => {
+
                 const token = generateToken(user)
-                response.status(201).json({ token })
+                response.cookie("token", token, {
+                    maxAge: 300000,
+                    secure: true
+                })
+
+                const { username } = user
+                response.status(200).json({ username, email })
             })
             .catch(err => {
                 if (err.code === 11000) {
@@ -38,13 +44,16 @@ class UserController {
         }
 
         const token = generateToken(user)
-        response.json({ token })
+        response.cookie("token", token, {
+            maxAge: 300000,
+            secure: true
+        })
+
+
+        const { username, id } = user
+        response.status(200).json({ username, email, id })
     }
-   
-    user = async (request, response) => {
-        const user = await User.findOne()
-    }
-    
+
 }
 
 export default new UserController

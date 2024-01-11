@@ -1,7 +1,9 @@
 import  Jwt  from "jsonwebtoken";
 
 const verifyToken = (request, response, next) => {
-	const token = request.header("x-access-token");
+	// const token = request.header("x-access-token");
+	const token = request.cookies ? request.cookies.token : null 
+    
 	if (!token)
 		return response
 			.status(400)
