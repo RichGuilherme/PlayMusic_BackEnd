@@ -13,11 +13,12 @@ import verifyToken from "./middleware/verifyToken.js";
 
 const app = express()
 const port = process.env.PORT
+const portOrigin = process.env.PORTORIGIN
 
 connectToDb()
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: portOrigin,
     credentials: true,
     methods: ['POST', 'GET', 'HEAD', 'DELETE', 'PATCH']
 }))
@@ -25,7 +26,13 @@ app.use(cors({
 
 app.use(cookieParser())
 app.use(express.json())
-
+app.use(session({
+    secret: process.env.SESSION,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {secure: false}
+}))
+app.use(passport.session())
 
 app.use(passport.initialize())
 

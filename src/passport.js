@@ -22,13 +22,6 @@ passport.use(new GoogleStrategy({
                 })
             }
 
-            // Gerar token JWT
-            const token = generateToken(user)
-            // response.status(200).json({token})
-            console.log(token)
-            // Imprimir o token
-            
-            // Retornar o usuário encontrado ou recém-criado
             return done(null, user)
         } catch (error) {
             return done(error, null)
