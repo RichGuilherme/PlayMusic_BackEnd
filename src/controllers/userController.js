@@ -2,6 +2,13 @@ import { Music } from "../model/Songs.js";
 import { User } from "../model/User.js"
 
 class userController {
+   getDataUser = async (request, response) => {
+       const user = await User.findById(request.user._id)
+       const {username, email, id} = user
+       response.status(200).json({username, email, id})
+   }
+
+    // Pegar a descrição da playlist
     getDescritionPlaylist = async (request, response) => {
         const user = await User.findById(request.user._id)
         const musics = await Music.find({ user_id: user._id })
