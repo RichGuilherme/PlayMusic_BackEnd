@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    imagProfile: {
+       type: String,
+       default: ""
+    }, 
     musicList: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Music',
