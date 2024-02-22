@@ -32,23 +32,25 @@ class UserController {
 
     login = async (request, response) => {
         const { password, email } = request.body
-        const user = await User.findOne({ email })
+        const userEmail = await User.findOne({ email })
 
-        const passwordsMatch = await comparePasswords(password, user.password)
-
-        if (!user || !passwordsMatch) {
-            return response.status(401).json({ error: 'Email ou senha invalida!' })
+        if (!userEmail) {
+            return response.status(401).json({ error: 'Email ou senha inválida!' })
         }
 
-        const token = generateToken(user)
+        const passwordsMatch = await comparePasswords(password, userEmail.password)
+
+        if (!passwordsMatch) {
+            return response.status(401).json({ error: 'Email ou senha inválida!' })
+        }
+
+        const token = generateToken(userEmail)
         response.cookie("token", token, {
             maxAge: 300000,
             secure: true
         })
 
-
-        
-        response.status(200).json(user)
+        response.status(200).json(userEmail)
     }
 
 
