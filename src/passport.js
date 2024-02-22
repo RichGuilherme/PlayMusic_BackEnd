@@ -19,6 +19,7 @@ passport.use(new GoogleStrategy({
                 user = await User.create({
                     username: profile.displayName ,
                     email: profile.emails[0].value,
+                    imagProfile: profile.photos[0].value
                 })
             }
 
