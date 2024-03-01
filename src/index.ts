@@ -1,15 +1,16 @@
 import "dotenv/config.js"
 import express from "express";
 import session from "express-session"
-import connectToDb from './database/db.js'
-import musicRouter from "./router/music.js"
+import connectToDb from './database/db'
+import musicRouter from "./router/music"
 // import playListRouter from "./router/playlist.js"
-import userRouter from "./router/user.js"
+import userRouter from "./router/user"
 import "./passport.js"
 import passport from "passport";
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import verifyToken from "./middleware/verifyToken.js";
+import verifyToken from "./middleware/verifyToken";
+
 
 const app = express()
 const port = process.env.PORT
@@ -27,7 +28,7 @@ app.use(cors({
 app.use(cookieParser())
 app.use(express.json())
 app.use(session({
-    secret: process.env.SESSION,
+    secret: process.env.SESSION || "",
     resave: false,
     saveUninitialized: true,
     cookie: {secure: false}

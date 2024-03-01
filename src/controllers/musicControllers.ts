@@ -2,29 +2,30 @@ import { Music } from "../model/Songs.js";
 import { User } from "../model/User.js";
 import { parseBuffer } from 'music-metadata';
 import { ref, getDownloadURL, uploadBytesResumable, deleteObject } from "firebase/storage";
-import storage from "../config/firebase.js";
+import storage from "../config/firebase";
+import { Response, Request } from "express";
 
 class MusicControllers {
-    create = async (request, response) => {
-        const user = await User.findById(request.user._id)
+    create = async (req: Request, res: Response) => {
+        const user = await User.findById(req.user._id)
 
         // const maxMusic = 10
         // if (playList.songs.length >= maxMusic) {
-        //     return response.status(403).json("Limite de música alcançado")
+        //     return res.status(403).json("Limite de música alcançado")
         // }
 
-        const musicFile = request.file
+        const musicFile: Express.Multer.File  = req.file 
         const infoMusic = await parseBuffer(musicFile.buffer) // Pega informações extra com o music-metadata
 
 
         // configurações do firebase para armazenamento
-        const storageRef = ref(storage, `${request.file.originalname}`)
+        const storageRef = ref(storage, `${req.file.originalname}`)
 
         const metadata = {
-            contentType: request.file.mimetype,
+            contentType: req.file.mimetype,
         }
 
-        const snapshot = await uploadBytesResumable(storageRef, request.file.buffer, metadata)
+        const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata)
         const downloadURL = await getDownloadURL(snapshot.ref)
 
 
@@ -33,7 +34,7 @@ class MusicControllers {
         // Tenta obter a URL da thumbnail (capa do álbum) a partir dos metadados
         if (infoMusic.common.picture && infoMusic.common.picture.length > 0) {
             const thumbnailBuffer = infoMusic.common.picture[0].data
-            const thumbnailStorageRef = ref(storage, `musicThumbnail/${request.file.originalname}.jpg`)
+            const thumbnailStorageRef = ref(storage, `musicThumbnail/${req.file.originalname}.jpg`)
             const thumbnailSnapshot = await uploadBytesResumable(thumbnailStorageRef, thumbnailBuffer, { contentType: 'image/jpeg' })
 
             thumbnailURL = await getDownloadURL(thumbnailSnapshot.ref)
@@ -51,20 +52,20 @@ class MusicControllers {
         user.musicList.push(music._id)
         await user.save()
 
-        return response.status(200).json(music)
+        return res.status(200).json(music)
     }
 
-    getMusic = async (request, response) => {
-        const music = await Music.findById(request.params.musicId)
+    getMusic = async (req: Request, res: Response) => {
+        const music = await Music.findById(req.params.musicId)
 
-        response.status(200).json({ music })
+        res.status(200).json({ music })
     }
 
-    deleteMusic = async (request, response) => {
-        const musicId = request.query.musicId
+    deleteMusic = async (req: Request, res: Response) => {
+        const musicId = req.query.musicId
         const music = await Music.findById(musicId)
-        const userId = request.user._id;
-        const musicIdToDelete = request.query.musicId;
+        const userId = req.user._id;
+        const musicIdToDelete = req.query.musicId;
 
         User.findByIdAndUpdate(userId, {
             $pull: { musicList: musicIdToDelete }
@@ -77,7 +78,7 @@ class MusicControllers {
             });
 
         if (!music) {
-            return response.status(404).send("Música não encontrada")
+            return res.status(404).send("Música não encontrada")
         }
 
         await Music.findByIdAndDelete(musicId)
@@ -92,14 +93,14 @@ class MusicControllers {
             await deleteObject(thumbnailRef)
         }
 
-        response.status(200).send("Música deletada com sucesso")
+        res.status(200).send("Música deletada com sucesso")
     }
 
-    getMusics = async (request, response) => {
-        const user = await User.findById(request.user._id)
+    getMusics = async (req: Request, res: Response) => {
+        const user = await User.findById(req.user._id)
         const musics = await Music.find({ user_id: user._id })
 
-        response.status(200).json({ musics })
+        res.status(200).json({ musics })
     }
 }
 
