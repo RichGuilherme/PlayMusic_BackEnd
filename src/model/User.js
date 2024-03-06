@@ -26,9 +26,9 @@ const userSchema = new mongoose.Schema({
        type: String,
        default: ""
     }, 
-    musicList: [{
+    playlist: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Music',
+        ref: 'Playlist',
     }],
     dataUP: {
         type: Date,

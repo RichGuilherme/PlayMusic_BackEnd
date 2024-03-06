@@ -2,9 +2,9 @@ import "dotenv/config.js"
 import express from "express";
 import session from "express-session"
 import connectToDb from './database/db.js'
-import musicRouter from "./router/music.js"
-// import playListRouter from "./router/playlist.js"
-import userRouter from "./router/user.js"
+import musicRouter from "./router/music.router.js"
+import playListRouter from "./router/playlist.router.js"
+import userRouter from "./router/user.router.js"
 import "./passport.js"
 import passport from "passport";
 import cookieParser from 'cookie-parser'
@@ -36,7 +36,7 @@ app.use(passport.session())
 
 app.use(passport.initialize())
 
-// app.use("/playList" , verifyToken, playListRouter )
+app.use("/playList" , verifyToken, playListRouter )
 app.use("/music", verifyToken, musicRouter)
 app.use("/user", userRouter)
 

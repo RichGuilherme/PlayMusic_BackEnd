@@ -1,15 +1,15 @@
 import mongoose from "mongoose"
 
 const musicSchema = {
-    user_id: {
+    playlist_id: {
         type: mongoose.Types.ObjectId,
-        ref: "User",
+        ref: "Playlist",
         required: true
     },
     title: String,
     artist: String,
     duration: Number,
-    thumbnail: {
+    thumbnailMusic: {
         type: String,
         required: false,
         default: "",
