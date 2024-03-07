@@ -1,9 +1,10 @@
 import mongoose from "mongoose"
 
 const PlayListSchema = {
-  title: {
+  title: { type: String },
+  descritionPlayList: {
     type: String,
-    required: true
+    default: ""
   },
   user_id: {
     type: mongoose.Types.ObjectId,

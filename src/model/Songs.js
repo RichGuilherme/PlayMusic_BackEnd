@@ -6,9 +6,12 @@ const musicSchema = {
         ref: "Playlist",
         required: true
     },
-    title: String,
-    artist: String,
-    duration: Number,
+    title: { type: String},
+    artist: { 
+        type: String,
+        default: ""
+    },
+    duration: { type:Number },
     thumbnailMusic: {
         type: String,
         required: false,

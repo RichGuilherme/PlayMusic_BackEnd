@@ -14,18 +14,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         select: true
     },
-    namePlayList: {
-        type: String,
-        default: "Minha playlist"
-    },
-    descritionPlayList: {
-        type: String,
-        default: ""
-    },
     imagProfile: {
        type: String,
        default: ""
     }, 
+    favoritSongs: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Music'
+    }],
     playlist: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Playlist',
