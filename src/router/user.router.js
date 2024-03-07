@@ -8,7 +8,6 @@ import { generateToken } from "../middleware/authJWT.js";
 
 router.post('/register', authController.register)
 router.post('/login', authController.login)
-router.get('/getDescritionPlaylist', verifyToken, userController.getDescritionPlaylist)
 router.get('/getDataUser', verifyToken, userController.getDataUser)
 
 
