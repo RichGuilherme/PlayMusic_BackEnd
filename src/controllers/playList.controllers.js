@@ -1,4 +1,5 @@
 import { PlayList } from "../model/Playlist.js"
+import { Music } from "../model/Songs.js";
 import { User } from "../model/User.js";
 
 class PlayListControllers {
@@ -42,7 +43,23 @@ class PlayListControllers {
         const {id}= request.params
         const list = await PlayList.findById(id)
 
-        response.status(200).json(list)
+        const {title, thumbnailPlayList, descritionPlayList} = list
+
+        response.status(200).json({title, thumbnailPlayList, descritionPlayList})
+    }
+
+    playlistDuration = async (request, response) => {
+        const { id }= request.params
+        const playlist = await PlayList.findById(id)
+        const musics = await Music.find({ playlist_id: playlist._id })
+        
+        
+        const durations = musics.map(value => value.duration)
+        const sumDurations = durations.reduce((accumulator, value) => accumulator + value, 0)
+
+        const sumMusics = durations.length
+
+        response.status(200).json({ sumDurations, sumMusics})
     }
 
     updateList = async (request, response) => {
