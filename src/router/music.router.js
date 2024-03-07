@@ -7,6 +7,7 @@ import musicControllers from "../controllers/music.controllers.js"
 router.post('/create/:idPlaylist',  uploadAudio.single("music"),  musicControllers.create);
 router.get('/getMusic/:idMusic',  musicControllers.getMusic)
 router.get('/getMusics/:idPlaylist',  musicControllers.getMusics)
+router.get('/TimeMusics/:idPlaylist',  musicControllers.durationTimeMusics)
 router.delete('/delete',  musicControllers.deleteMusic)
 
 export default router
