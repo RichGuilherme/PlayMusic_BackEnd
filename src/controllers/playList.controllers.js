@@ -2,20 +2,15 @@ import { PlayList } from "../model/Playlist.js"
 import { User } from "../model/User.js";
 
 class PlayListControllers {
-
     create = async (request, response) => {
-        const { title } = request.body
-
         const idUser = request.user._id
         const user = await User.findById(idUser)
 
-        // if(user.playList.length >= 2){
-        //     return response.status(403).json("Limite máximo de lista alcançado.")
-        // }
+        const amountPlaylist = user.playlist.length
 
         const playList = await PlayList({
             user_id: user._id,
-            title: title
+            title: `Minha playlist n° ${amountPlaylist + 1}`
         }).save()
 
 
@@ -26,7 +21,7 @@ class PlayListControllers {
         return response.status(200).json(playList)
     }
 
-    // Pega todas as lista do usuário
+
     getListsUser = async (request, response) => {
         const idUser = request.user._id
         const user = await User.findById(idUser)
@@ -42,19 +37,32 @@ class PlayListControllers {
         response.status(200).json(playlists)
     }
 
-    // Pega uma lista especifica do usuário
-    getList = async (request, response) => {
+
+    getListById = async (request, response) => {
         const idList = request.params.idList
         const list = await PlayList.findById(idList)
 
         response.status(200).json(list)
     }
 
-    // Deletar listar 
-    deleteList = async (request, response) => {
-        await PlayList.findByIdAndDelete(request.params.listId)
+    updateList = async (request, response) => {
+        const idList = request.params.idList
+        const {title, thumbnailPlayList, descritionPlayList} = request.body
 
-        response.status(200).send("Lista deletada")
+        const list = await PlayList.findByIdAndUpdate(idList, {
+            title,
+            thumbnailPlayList,
+            descritionPlayList
+        })
+
+        response.status(200).send("Lista atualizada!" + list)
+
+    }
+
+    deleteList = async (request, response) => {
+        await PlayList.findByIdAndDelete(request.query.listId)
+
+        response.status(200).send("Lista deletada!")
     }
 }
 
