@@ -7,8 +7,8 @@ import { PlayList } from "../model/Playlist.js";
 
 class MusicControllers {
     create = async (request, response) => { 
-        const idPlaylist = request.params.idPlaylist
-        const playlist = await PlayList.findById(idPlaylist)
+        const {id}= request.params
+        const playlist = await PlayList.findById(id)
 
         // const maxMusic = 10
         // if (playList.songs.length >= maxMusic) {
@@ -57,24 +57,24 @@ class MusicControllers {
     }
 
     getMusic = async (request, response) => {
-        const idMusic = request.params.idMusic
-        const music = await Music.findById(idMusic)
+        const { id }= request.params
+        const music = await Music.findById(id)
 
         response.status(200).json({ music })
     }
 
 
     getMusics = async (request, response) => {
-        const idPlaylist = request.params.idPlaylist
-        const playlist = await PlayList.findById(idPlaylist)
+        const { id }= request.params
+        const playlist = await PlayList.findById(id)
         const musics = await Music.find({ playlist_id: playlist._id })
 
         response.status(200).json({ musics })
     }
 
     durationTimeMusics = async (request, response) => {
-        const idPlaylist = request.params.idPlaylist
-        const playlist = await PlayList.findById(idPlaylist)
+        const { id }= request.params
+        const playlist = await PlayList.findById(id)
         const musics = await Music.find({ playlist_id: playlist._id })
         
         
@@ -87,7 +87,7 @@ class MusicControllers {
     }
 
     deleteMusic = async (request, response) => {
-        const musicId = request.query.musicId
+        const { musicId }= request.query
         const music = await Music.findById(musicId)
         const userId = request.user._id;
         const musicIdToDelete = request.query.musicId;

@@ -39,17 +39,17 @@ class PlayListControllers {
 
 
     getListById = async (request, response) => {
-        const idList = request.params.idList
-        const list = await PlayList.findById(idList)
+        const {id}= request.params
+        const list = await PlayList.findById(id)
 
         response.status(200).json(list)
     }
 
     updateList = async (request, response) => {
-        const idList = request.params.idList
+        const { id }= request.params
         const {title, thumbnailPlayList, descritionPlayList} = request.body
 
-        const list = await PlayList.findByIdAndUpdate(idList, {
+        const list = await PlayList.findByIdAndUpdate(id, {
             title,
             thumbnailPlayList,
             descritionPlayList
