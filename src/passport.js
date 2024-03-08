@@ -2,7 +2,6 @@ import passport from "passport";
 import "dotenv/config.js"
 import GoogleStrategy from "passport-google-oauth20"
 import { User } from "./model/User.js";
-import { generateToken} from "./authJWT.js";
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,

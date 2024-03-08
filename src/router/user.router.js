@@ -2,9 +2,9 @@ import Express from "express";
 const router = Express.Router()
 import authController from "../controllers/auth.controller.js"
 import passport from "passport";
-import verifyToken from "../middleware/verifyToken.js";
+import verifyToken from "../middleware/verifyToken.middleware.js";
 import userController from "../controllers/user.controller.js";
-import { generateToken } from "../middleware/authJWT.js";
+import { generateToken } from "../middleware/authJWT.middleware.js";
 
 router.post('/register', authController.register)
 router.post('/login', authController.login)

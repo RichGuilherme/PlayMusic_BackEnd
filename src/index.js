@@ -9,7 +9,7 @@ import "./passport.js"
 import passport from "passport";
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import verifyToken from "./middleware/verifyToken.js";
+import verifyToken from "./middleware/verifyToken.middleware.js";
 
 const app = express()
 const port = process.env.PORT

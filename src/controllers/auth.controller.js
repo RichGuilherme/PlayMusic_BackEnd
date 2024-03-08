@@ -1,4 +1,4 @@
-import { comparePasswords, generateToken, hashPassword } from "../middleware/authJWT.js";
+import { comparePasswords, generateToken, hashPassword } from "../middleware/authJWT.middleware.js";
 import { User } from "../model/User.js";
 
 

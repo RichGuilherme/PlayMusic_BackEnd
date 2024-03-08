@@ -7,15 +7,15 @@ const verifyToken = (request, response, next) => {
 	if (!token)
 		return response
 			.status(400)
-			.send({ message: "Access denied, no token provided." });
+			.send({ message: "Access denied, no token provided." })
 
 	Jwt.verify(token, "admin@", (err, validToken) => {
 		if (err) {
             console.log(err)
-			return response.status(400).send({ message: "invalid token" });
+			return response.status(400).send({ message: "invalid token" })
 		} else {
-			request.user = validToken;
-			next();
+			request.user = validToken
+			next()
 		}
 	})
 }
