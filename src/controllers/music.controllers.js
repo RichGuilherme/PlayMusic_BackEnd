@@ -72,19 +72,6 @@ class MusicControllers {
         response.status(200).json({ musics })
     }
 
-    durationTimeMusics = async (request, response) => {
-        const { id }= request.params
-        const playlist = await PlayList.findById(id)
-        const musics = await Music.find({ playlist_id: playlist._id })
-        
-        
-        const durations = musics.map(value => value.duration)
-        const sumDurations = durations.reduce((accumulator, value) => accumulator + value, 0)
-
-        const sumMusics = durations.length
-
-        response.status(200).json({ sumDurations, sumMusics})
-    }
 
     deleteMusic = async (request, response) => {
         const { musicId }= request.query
